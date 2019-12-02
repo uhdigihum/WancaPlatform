@@ -1,0 +1,19 @@
+<% @languages.each do |language| %>
+    <% unless language.group.nil? %>
+        <tr>
+          <td style="padding-left:2em"><%= link_to language.name, language %></td>
+          <% if @domain.nil? %>
+              <% count = language.sites.count %>
+          <% else %>
+              <% count = language.sites.where(domain_id: @domain.id).count.to_i %>
+          <% end %>
+          <% unless count == 0 %>
+              <td style="padding-left:1em"><%= count %></td>
+          <% else %>
+              <td></td>
+          <% end %>
+          <td style="padding-left:1em"><%= language.group.name %></td>
+          <td style="padding-left:1em"><%= language.code %></td>
+        </tr>
+    <% end %>
+<% end %>

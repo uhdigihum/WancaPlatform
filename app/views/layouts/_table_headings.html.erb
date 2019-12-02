@@ -1,0 +1,4 @@
+<th style="padding-left:2em"><%= link_to(raw('Name <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>'), languages_path(order:"name", dom: @domain)) %></th>
+<th style="padding-left:1em">Nro of Sites</th>
+<th style="padding-left:1em"><%= link_to(raw('Group <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>'), languages_path(order:"group", dom: @domain)) %></th>
+<th  style="padding-left:1em"><%= link_to(raw('ISO 639-3 code <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>'), languages_path(order:"code", dom: @domain)) %></th>

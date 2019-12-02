@@ -1,0 +1,22 @@
+<div>
+  <h4>Send a message to the Wanca team</h4>
+
+  <%= form_for @contact do |f| %>
+      <%= f.label "Your name" %> <%= f.text_field :name, size: 50 %> </br></br>
+      <%= f.label "Your email" %> <%= f.text_field :email, size: 50 %></br></br>
+      <%= f.label "Message" %> <%= f.text_area :message, size: '70x10', :placeholder => "Please, do not include any urls or links in this message!" %></br></br>
+        <%= f.label "nickname", class: "mystyle" %> <%= f.text_field :nickname, size: 50, class: "mystyle"  %></br>
+      <%= f.submit "Send message" %>
+  <% end %>
+</div>
+<br>
+<p>A copy of this message will be sent to your email address!</p>
+
+<br><br>
+
+<% if !current_user || !(current_user && current_user.admin) %>
+        <p>
+            If you want to apply for expert rights to be able to verify and change link languages as well as to add new links to Wanca,
+          please let us know about your interest in Wanca and Uralic languages, about your language skills and your affiliation if any.
+        </p>
+<% end %>

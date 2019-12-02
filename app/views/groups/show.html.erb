@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Language group:</strong>
+  <%= @group.name %>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Language name</th>
+          <th>Nro of sites</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @languages.each do |lang| %>
+        <tr>
+          <td><%= link_to lang.name, lang %></td>
+          <td><%= lang.sites.count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+</div>

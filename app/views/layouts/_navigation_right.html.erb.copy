@@ -1,0 +1,76 @@
+<% unless current_user.nil? %>
+    <% if current_user.chief %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Users', users_path %></li>
+            <li><%= link_to 'Problem pages', problem_links_path %></li>
+          </ul>
+        </li>
+    <% end %>
+
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= current_user.username %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Signout', signout_path, method: :delete %></li>
+        <li><%= link_to 'My information', current_user %></li>
+        <li><%= link_to 'Edit my info', edit_user_path(current_user) %></li>
+        <% if current_user.admin %>
+            <li><%= link_to 'Add missing link', new_link_path %></li>
+        <% end %>
+        <li><%= link_to user_path(current_user, show: 'no'), method: :patch do %>
+              <% if session[:show] == 'no' %><span class="glyphicon glyphicon-ok"></span><% end %> Not showing voted
+        <% end %></li>
+        <li><%= link_to user_path(current_user, show: 'yes'), method: :patch do %>
+              <% if session[:show] == 'yes' %><span class="glyphicon glyphicon-ok"></span><% end %> Showing voted
+          <% end %></li>
+      </ul>
+    </li>
+
+<% else %>
+    <li><%= link_to 'Login', signin_path %></li>
+    <li><%= link_to 'Sign up', signup_path %></li>
+<% end %>
+<li><%= link_to 'Instructions', info_path() %></li>
+<li><%= link_to '|', '' %></li>
+
+<li><%= link_to 'SUKI', "http://suki.ling.helsinki.fi/eng/project.html" %></li>
+  <%# if I18n.locale == I18n.default_locale %>
+    <!--<li><%#= link_to "English", :locale=>'en' %></li>
+  <%# else %>
+    <li><%#= link_to "Suomeksi", :locale=>'fi' %></li>
+  <%# end %> -->
+
+
+
+  verifiointi:
+
+  <li>
+            <%= link_to user_path(current_user, show: 'yes'), method: :patch do %>
+                <% unless all %><span style="color:gray" ><% end %>
+                <% if session[:show] == 'yes' %><span class="glyphicon glyphicon-ok"></span><% end %>
+                Showing voted
+                <% unless all %></span><% end %>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to user_path(current_user, show: 'no'), method: :patch do %>
+                <% unless all %><span style="color:gray" ><% end %>
+                <% if session[:show] == 'no' %><span class="glyphicon glyphicon-ok"></span><% end %>
+                Not showing voted
+                <% unless all %></span><% end %>
+            <% end %>
+          </li>
+
+
+
+          <li class="dropdown-header">Choose how to see verified links</li>
+          <li><%= link_to user_path(current_user, verify: 'all'), method: :patch do %>
+                <% if session[:verify] == 'all' %><span class="glyphicon glyphicon-ok"></span><% end %> Showing all links
+            <% end %></li>
+          <li><%= link_to user_path(current_user, verify: 'only'), method: :patch do %>
+                <% if session[:verify] == 'only' %><span class="glyphicon glyphicon-ok"></span><% end %> Showing only verified
+            <% end %></li>
+          <li><%= link_to user_path(current_user, verify: 'not'), method: :patch do %>
+                <% if session[:verify] == 'not' %><span class="glyphicon glyphicon-ok"></span><% end %> Not showing verified
+            <% end %></li>

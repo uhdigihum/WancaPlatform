@@ -1,0 +1,65 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+    <br>
+
+    <div class="field">
+
+          <p><span style="color:red">*</span> Required fields</p>
+      <% if @user.new_record? %>
+        <%= 'Username: ' %>
+        <%= f.text_field :username %><span>  </span>  <span style="color:red"> *</span><br><br>
+      <% else %>
+          <p><b>Username: </b><%= @user.username %></p><br>
+          <p><b>Edit/Add your name and or email address</b></p>
+      <% end %>
+      <%= f.label 'Firstname: ' %>
+      <%= f.text_field :firstname %><br><br>
+      <%= f.label 'Lastname: ' %>
+      <%= f.text_field :lastname %><br><br>
+      <%= f.label 'Email address: ' %>
+      <%= f.email_field :email, size: 50 %><span>  </span><span style="color:red"> *</span> (for password recovery)<br><br>
+
+    <% if @user.new_record? %>
+        <%= f.label :password %> <span style="color:red"> *</span><br />
+        <% else %>
+        <p><b>and/or change your password</b></p>
+        <%= f.label :password, 'New password' %> <br />
+        <% end %>
+    <%= f.password_field :password %>
+  </div>
+    <div>
+      <% if @user.new_record? %>
+          <%= f.label :password_confirmation %>  <span style="color:red"> *</span><br />
+      <% else %>
+          <%= f.label :password_confirmation %><br />
+      <% end %>
+      <%= f.password_field :password_confirmation %><br /><br />
+      <%= f.check_box :checkbutton %>
+      <%= f.label :checkbutton, "I have read Wanca's #{link_to 'user register privacy policy', 'http://www.suki.ling.helsinki.fi/eng/Wanca_user_register_privacy_policy.pdf', target: '_blank'}.".html_safe %><span style="color:red"> *</span><br><br>
+    </div>
+    <br />
+    <p><b>Please check the box (and if necessary answer the question)</b></p>
+    <%= recaptcha_tags %>
+    <br />
+  <div class="actions">
+    <% if @user.new_record? %>
+        <%= f.submit 'Create' %>
+    <% else %>
+        <%= f.submit 'Change' %>
+    <% end %>
+    <br><br>
+    <p style="font-size: smaller"><i>
+      Cookies are used for making your browsing experience more enjoyable.</i></p>
+  </div>
+<% end %>

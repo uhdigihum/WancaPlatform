@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Domain name:</strong>
+  <%= @domain.name %>
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <th style="padding-left:2em"><%= link_to 'Name', languages_path(order:"name") %>  <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></th>
+    <th style="padding-left:1em">Nro of Sites</th>
+    <th style="padding-left:1em"><%= link_to 'Group', languages_path(order:"group") %>  <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></th>
+    <th  style="padding-left:1em"><%= link_to 'ISO 639-3 code', languages_path(order:"code") %>  <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @languages.each do |language| %>
+      <% unless language.group.nil? %>
+      <tr>
+        <% count = language.sites.where(domain_id: @domain.id).count.to_i %>
+        <% unless count == 0 %>
+            <td style="padding-left:2em"><%= link_to language.name, language_path(language, :dom => @domain.id) %></td>
+                <td style="padding-left:1em"><%= count %></td>
+            <td style="padding-left:1em"><%= language.group.name %></td>
+            <td style="padding-left:1em"><%= language.code %></td>
+        <% end %>
+      </tr>
+  <% end %>
+  <% end %>
+  </tbody>
+</table>
+

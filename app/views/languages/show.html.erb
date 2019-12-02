@@ -1,0 +1,102 @@
+<p id="notice"><%= notice %></p>
+
+
+<% path_to_back = session[:return_from_languages] %>
+<p>
+  <strong><%= @lang.name %></strong>
+  <% unless @lang.code.nil? %>
+      <%= link_to @lang.code, "http://www-01.sil.org/iso639-3/documentation.asp?id=#{@lang.code}" %>
+      <% end %>
+   (<%= @lang.group.name %>)
+
+  <% unless @domain.nil? %>
+    <%= @domain.name %> domain
+  <% end %>
+
+
+</p>
+<div><%= link_to 'Back', path_to_back %></div>
+
+<% hide = false %>
+<%# linkit = Link.select(:site_id).where(language_id: @lang.id, show: true) %>
+
+<% if current_user and current_user.chief %>
+    <% hide = true %>
+<% end %>
+
+<%= will_paginate @sites, :previous_label => 'Previous', :next_label => 'Next', :renderer => BootstrapPagination::Rails, :onclick => 'startLoader()', class: 'pagination-sm' %>
+
+<% unless session[:page].nil? %>
+    <% page = session[:page] %>
+<% else %>
+    <% page = 1 %>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10">
+<div class="table-responsive">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th><strong>Browse sites</strong> <span class="badge"><%= @count %></span>
+          </th>
+          <% if !current_user or session[:show] == 'yes' %>
+            <th>Number of links</th>
+          <% else %>
+            <th>Number of unvoted links</th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <% for i in 0..@info.length-1 %>
+		<tr>
+        <% linksCount = @info[i][2] %>
+        <% if session[:show] == 'no' || session[:verify] == 'only' %>
+                  <% count = @info[i][3] %>
+        <% else %>
+                  <% count = linksCount %>
+        <% end %>
+        <% if linksCount > 0 %>
+                  <% if count.to_i > 0 %>
+                      <% first = @info[i][1] %>
+                      <td class="col-md-4">
+                        <% unless @domain.nil? %>
+                            <%= link_to @info[i][0].name, link_path(first, :link_nro => 1, :dom => @domain.id, :language_id => @lang.id)%>
+                        <% else %>
+                            <%= link_to @info[i][0].name, link_path(first, :link_nro => 1, :language_id => @lang.id) %>
+                        <% end %>
+                      </td>
+                  <% else %>
+                      <td style="color:lightgray"><%= @info[i][0].name %></td>
+                  <% end %>
+                  <td class="col-md-5" style="padding-left:2em"><%= count %></td>
+                  <% if hide %>
+                    <td><%= link_to 'Hide this site', site_path(@info[i][0], :language_id => @lang.id, :show => 'false'), method: :patch, :class => 'btn btn-sm btn-default' %></td>
+                  <% end %>
+        <% end %>
+      </tr>
+		</td>
+	</tr>
+	<% end %>
+  </table>
+
+</div>
+    </div>
+    <div class="col-xs-2">
+    </div>
+  </div>
+</div>
+<%= will_paginate @sites, :previous_label => 'Previous', :next_label => 'Next', :renderer => BootstrapPagination::Rails, class: 'pagination-sm' %>
+
+<div><%= link_to 'Back', path_to_back %></div>
+
+
+
+<!--<script>
+  $('.pagination-sm').click(function() {
+      startLoader();
+  });
+</script>-->
+		
+

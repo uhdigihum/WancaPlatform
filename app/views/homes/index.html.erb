@@ -1,0 +1,59 @@
+
+
+<div id="home" class="container">
+  <div class="row">
+
+    <div class="col-xs-11"><%= image_tag 'Roots2.jpg'%></div>
+    <div class="col-xs-1"></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-10" style="text-align: center"><h3>WANCA</h3> (Beta version*)</div>
+    <div class="col-xs-2"></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-11">
+<p>Wanca (from Proto Uralic <a href="http://starling.rinet.ru/cgi-bin/response.cgi?single=1&basename=%2fdata%2furalic%2furalet&text_number=1114&root=config" target="blank">*wanča ‘root’</a>)
+  is a collection of links to web pages written in various Uralic languages.
+  The pages have been found using the automated system developed in the
+  <a href="http://suki.ling.helsinki.fi/eng/project.html" target="blank">SUKI project</a>. At the moment, Wanca consists of <%= number_with_delimiter(@nro_of_links, delimiter: ' ') %> links to
+  <%= number_with_delimiter(@nro_of_sites, delimiter: ' ') %> sites containing pages written in <%= @languages %>
+  of the smaller Uralic languages.</p>
+      <p>You can browse the link collection through the languages and language groups or by the list of top-domains.
+        See <%= link_to 'instructions', info_path() %> for how to use Wanca.
+
+  <span style="color: red">Native speakers and scholars are invited to create a personal account and help us verify the language labels
+  given to the pages by our automatic language identifier. The verified links will be used for new crawls and to further improve our language identifier.
+  After signing up you can apply for expert rights by sending us a message through our contact form.</span></p>
+
+
+
+<p>In the SUKI project we are promoting the smaller Uralic languages and we do not intentionally collect links to pages written in
+  Hungarian, Finnish or Estonian. Wanca is the result of the <a href="http://www.koneensaatio.fi/en/language-programme/" target="blank">Language Programme</a> of
+  the <a href="http://www.koneensaatio.fi/en/" target="blank">Kone Foundation</a> for small Finno-Ugric languages.</p>
+
+      <p><small>* The site is still under construction.
+        When initially identifying the language of the links we found, we did not want to miss any potential texts written in small Uralic languages.
+        Therefore, the site contains many links that turned out not to contain the target languages.
+        We are re-indentifying the links with a stricter filter, but with automatical language identification it is not possible to
+        identify the language of all web pages correctly so we need the help of those who know these languages. We also wanted to get feedback on both the site and the links and,
+        therefore, opened the site for public use already at this stage. A list of the recent updates made to Wanca can be found
+        <%= link_to 'here', updates_path() %>.</small>
+      </p>
+      </div>
+      <div class="col-xs-1">
+        </div>
+    </div>
+  <div class="row">
+    <div class="col-xs-5">
+      <a href="http://www.koneensaatio.fi/en/" target="blank"><%= image_tag 'Koneensaatio-logo.png', :height => "70%", :width => "70%" %> </a>
+      </div>
+    <div class="col-xs-5">
+      <a href="https://www.helsinki.fi/en" target="blank"><%= image_tag 'HY_logo.jpg', :height => "70%", :width => "70%" %></a>
+      </div>
+    <div class="col-xs-2">
+      </div>
+    </div>
+
+</div>

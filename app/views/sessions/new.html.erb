@@ -1,0 +1,19 @@
+<h3>Login</h3>
+
+<%= form_tag session_path do %>
+    Username:<br />
+    <%= text_field_tag :username, params[:username] %><br />
+    Password:<br />
+    <%= password_field_tag :password, params[:password] %><br /><br />
+
+    <p>Please read Wanca's <a href="http://www.suki.ling.helsinki.fi/eng/Wanca_user_register_privacy_policy.pdf", target="blank">user register privacy policy</a>.</p><br>
+
+    <%= submit_tag 'Log in' %>
+<% end %>
+<br />
+<br />
+<p>
+  <%= link_to 'Sign up', signup_path %>
+</p><br />
+
+<p style="font-size: smaller"><i>Forgot your password? <%= link_to 'Send us a message', contacts_path() %>.</i></p>

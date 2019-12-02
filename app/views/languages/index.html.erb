@@ -1,0 +1,65 @@
+
+<% if @domain.nil? %>
+    <h3>Uralic languages</h3>
+<% else %>
+    <p>
+      <strong>Domain name:</strong>
+      <%= @domain.name %>
+    </p>
+<% end %>
+
+<div id="home">
+  <p>The grouping as well as the division of languages follow those of
+    <a href="http://www.ethnologue.com/about">Ethnologue: Languages of the World</a> and
+    the <a href="http://www-01.sil.org/iso639-3/default.asp">ISO 639-3 standard</a>.</p>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10">
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-left:2em"><%= link_to(raw('Name <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>'), languages_path(order:"name", dom: @domain)) %></th>
+      <th style="padding-left:1em">Number of Sites</th>
+      <th style="padding-left:1em"><%= link_to(raw('Group <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>'), languages_path(order:"group", dom: @domain)) %></th>
+      <th style="padding-left:1em"><%= link_to(raw('ISO 639-3 code <span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>'), languages_path(order:"code", dom: @domain)) %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @languages.each do |language| %>
+      <% unless language.group.nil? %>
+          <tr>
+            <% if @domain.nil? %>
+                <% count = language.joints.count %>
+                <% path = language %>
+            <% else %>
+                <% count = language.sites.where(domain_id: @domain.id).count.to_i %>
+                <% path = language_path(language, :dom => @domain.id) %>
+            <% end %>
+            <td style="padding-left:2em"><%= link_to language.name, path, :onclick => 'startLoader()' %></td>
+            <% unless count == 0 %>
+                <td style="padding-left:1em"><%= count %></td>
+            <% else %>
+                <td></td>
+            <% end %>
+            <td style="padding-left:1em"><%= language.group.name %></td>
+            <td style="padding-left:1em"><%= link_to language.code, "http://www-01.sil.org/iso639-3/documentation.asp?id=#{language.code}" %></td>
+          </tr>
+      <% end %>
+  <% end %>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+  <div class="col-xs-2">
+  </div>
+</div>
+</div>
+
+<br>
+
+
+

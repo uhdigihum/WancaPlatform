@@ -1,0 +1,196 @@
+<h5>
+  Links
+  <% if @lang.nil? %>
+      on site <strong><%= @site.name %></strong> (<% if session[:show] == 'no' %><%= @count %>/<% end %><%= pluralize(@all_count, 'link') %>)
+      <% first = @site.links.first %>
+  <% else %>
+      in <strong><%= link_to @lang.name, language_path(@lang) %></strong> (<% if session[:show] == 'no' %><%= @count %>/<% end %><%= pluralize(@all_count, 'link') %>)
+      on site <strong><%= link_to @site.name, site_path(@site) %></strong> (<%= pluralize(@site.languages.count, 'language') %>)
+      <% first = @site.links.where(language_id: @lang.id).first %>
+  <% end %>
+
+  <% if current_user and current_user.admin and @lang.nil? %>
+      <%= link_to 'Edit site language', edit_site_path(@site), :class => 'btn btn-sm btn-default' %>
+      <% if current_user.chief %>
+          <%= link_to 'Hide this site', site_path(@site, :show => 'false'), method: :patch, :class => 'btn btn-sm btn-default' %>
+      <% end %>
+  <% end %>
+</h5>
+
+
+<!-- <p>Automatically identified language(s):
+  <%# for i in 0..@original_langs.length-1 %>
+      <span title="Will show sites in this language"><%#= link_to @original_langs[i].name, language_path(@original_langs[i], :dom => @dom_id)%><span>: </span></span>
+  <%# end %>
+</p> -->
+
+<p><strong>Current language(s):</strong>
+  <% @sitelangs.each do |lang| %>
+      <span title="Will show pages in this language on this site"><%= link_to lang.name, site_path(@site, language_id: lang.id) %><span>: </span></span>
+  <% end %>
+</p>
+
+
+
+<br />
+
+<!--<p>
+  <%#= link_to 'Download links in zip archive', site_path(@site, format: 'zip') %>
+</p> -->
+
+
+
+<% if @links.size > 0 %>
+    <% if @lang.nil? %>
+        <%= link_to 'Browse these links', link_path(@links[0], :link_nro => 1), :class => 'btn btn-sm btn-default' %>
+    <% else %>
+        <%= link_to 'Browse these links', link_path(@links[0], :link_nro => 1, :language_id => @lang.id), :class => 'btn btn-sm btn-default' %>
+    <% end %>
+<% end %>
+
+<br />
+
+<%= will_paginate @links, :previous_label => 'Previous', :next_label => 'Next', :renderer => BootstrapPagination::Rails, class: 'pagination-sm' %>
+<br />
+<% if current_user && @count > 100 %>
+    <% if @lang.nil? %>
+        <% lang = nil %>
+    <% else %>
+        <% lang = @lang.id %>
+    <% end %>
+    Show
+    <% if session[:links].to_i == 30 %>
+        <% link = "<strong>30</strong>" %>
+    <% else %>
+        <% link = 30 %>
+    <% end %>
+    <%= link_to raw(link), :action => 'nr_of_links_on_page', :links => 30, :site => @site, :lang => @lang %>
+    <% if session[:links].to_i == 100 %>
+        <% link = raw("<strong>100</strong>") %>
+    <% else %>
+        <% link = 100 %>
+    <% end %>
+    <%= link_to link, :action => 'nr_of_links_on_page', :links => 100, :site => @site, :lang => @lang %>
+    <% if @count > 200 %>
+        <% if session[:links].to_i == 200 %>
+            <% link = "<strong>200</strong>" %>
+        <% else %>
+            <% link = 200 %>
+        <% end %>
+        <%= link_to raw(link), :action => 'nr_of_links_on_page', :links => 200, :site => @site, :lang => @lang %>
+    <% end %>
+    <% if @count > 500 %>
+        <% if session[:links].to_i == 500 %>
+            <% link = "<strong>500</strong>" %>
+        <% else %>
+            <% link = 500 %>
+        <% end %>
+        <%= link_to raw(link), :action => 'nr_of_links_on_page', :links => 500, :site => @site, :lang => @lang %>
+    <% end %>
+    links/page
+
+<% end %>
+<% start = (@links.current_page-1) * session[:links].to_i %>
+
+<%= form_tag site_path, :controller => 'sites', :id => 'form', :method => 'patch' do %>
+    <% if current_user && @links.size > 0 %>
+        <div class="pull-right">
+          <p><% if current_user.admin %>
+                <%= submit_tag 'VERIFY all checked links' , :class => 'btn btn-sm btn-success'%>
+            <% end %>
+          </p>
+          <span title="Check the boxes for the links you want to vote for if any available. Verified links cannot be voted anymore.">Vote for current languages of the unverified checked links:</span>
+          <%= submit_tag 'Yes' , :class => 'btn btn-sm btn-success'%>
+          <%= submit_tag 'No' , :class => 'btn btn-sm btn-danger'%>
+          <%= submit_tag 'Don\'t know' , :class => 'btn btn-sm btn-default'%>
+        </div><br /><br /><br />
+    <% end %>
+    <div class="table-responsive">
+      <table class="table table-striped table-condensed">
+        <thead>
+        <tr>
+          <th>
+            Address
+          </th>
+          <th>
+            Current Language
+          </th>
+          <% if current_user and @links.size > 0 %>
+              <th>
+                <%= link_to 'Check/Uncheck all links', '#', :onclick => 'selectAll()', :class => 'btn btn-sm btn-default' %>
+              </th>
+          <% end %>
+          <th>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for i in 0..@links.size-1 do  %>
+            <%# @link_keys.each do |i| %>
+            <% link_nro = start+i %>
+            <tr>
+              <% if @lang.nil? %>
+                  <td style="padding-left: 2em; text-indent:-2em;">
+                    <span title=<%= @links[i].address %>><%= link_to truncate(@links[i].address, length:100), link_path(@links[i], :link_nro => link_nro+1) %></span>
+                  </td>
+              <% else %>
+                  <td style="padding-left: 2em; text-indent:-2em;">
+                    <span title=<%= @links[i].address %>><%= link_to truncate(@links[i].address, length:100), link_path(@links[i], :link_nro => link_nro+1, :language_id => @lang.id) %></span>
+                  </td>
+              <% end %>
+              <td>
+                <% lang = Language.find(@links[i].language_id) %>
+                <%= lang.name %>
+              </td>
+
+              <% if current_user %>
+                  <% unless @links[i].verified %>
+                      <td><%= check_box_tag 'votes[]', [@links[i].id, lang.id] %></td>
+                      <% if current_user.admin %>
+                          <td>
+                            <%= link_to 'Edit language', edit_link_path(@links[i], :language_id => @links[i].language_id, :site_id => @site.id) %>
+                          </td>
+                      <% end %>
+                  <% else %>
+                      <td><span class="glyphicon glyphicon-ok" style="color:green;" title="Current language verified by an expert of the language"%></span></td>
+                      <td></td>
+                  <% end %>
+
+              <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%# hidden_field_tag 'lang_id', lang.id %>
+<% end %>
+<%= will_paginate @links, :previous_label => 'Previous', :next_label => 'Next', :renderer => BootstrapPagination::Rails, class: 'pagination-sm' %>
+
+<%#= link_to 'Edit', edit_site_path(@site) %>
+<br />
+
+
+
+<%= link_to 'Back', session[:hide_return] %>
+
+
+<br /><br />
+<div id="#anchor"></div>
+
+
+<script type="text/javascript">
+    checked = false;
+    function selectAll(){
+        if (checked == false) {
+            checked = true
+        } else {
+            checked = false
+        }
+        for (var i = 0; i < document.getElementById("form").elements.length; i++) {
+            document.getElementById("form").elements[i].checked = checked;
+        }
+        document.location.hash='#anchor'
+    }
+
+</script>

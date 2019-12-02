@@ -1,0 +1,23 @@
+
+  <strong>Suggested languages:</strong>
+
+    <table>
+      <% @langSuggs.each do |lang| %>
+      <tr><td>
+        <% if lang[2] %>
+            <span style="color:red"><%= lang[0].name %></span>
+        <% else %>
+            <%= lang[0].name %>
+        <% end %>
+        <%= lang[1] %>
+        <% if current_user %>
+            <% unless site  %>
+                <%= link_to 'YES', suggestions_path(link: @link.id, yes: true, dom: @dom_id, lang: @lang, next: @next, link_nro: @next_nro, language_id: lang[0].id ), method: :post, :class => 'btn btn-sm btn-success' %>
+            <% else %>
+                <%= link_to 'YES', site_suggestions_path(site: @site.id, language_id: lang[0].id), method: :post, :class => 'btn btn-sm btn-success' %>
+            <% end %>
+        <% end %>
+      </td></tr>
+      <% end %>
+    </table>
+

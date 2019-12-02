@@ -1,0 +1,79 @@
+
+
+<p>
+  <strong>Site:</strong>
+  <%= @site.name %>                
+</p>
+
+<!--<p>Automatically identified language(s):
+  <%# for i in 0..@original_langs.length-1 %>
+      <%#= @original_langs[i].name %><span>: </span>
+  <%# end %>
+</p>-->
+
+<p><strong>Current language(s):</strong>
+  <% @sitelangs.each do |lang| %>
+      <%= link_to lang.name, site_path(@site, language_id: lang.id) %><span>: </span>
+  <% end %>
+</p>
+
+<% lang = nil %>
+<p>
+  <%= form_tag site_path, :controller => 'sites', :method => 'patch' do %>
+    <strong>Change the language of ALL links on this site:</strong>
+    <span class="pull-right">
+      <% if current_user.admin %>
+        <%= submit_tag 'Change', :class => 'btn btn-sm btn-danger' %>
+      <% else %>
+        <%= submit_tag 'Suggest', :class => 'btn btn-sm btn-success' %>
+      <% end %>
+      <%= link_to 'Cancel', :back, :class => 'btn btn-sm btn-default' %>
+      </span></p>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <table class="table table-condensed">
+
+
+            <% for i in 0..18 %>
+                <% language = @languages[i] %>
+                <%= render 'layouts/button', language: language, lang: lang %>
+            <% end %>
+
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-condensed">
+
+            <% for i in 19..@languages.length-1 %>
+                <% language = @languages[i] %>
+                <%= render 'layouts/button', language: language, lang: lang %>
+            <% end %>
+
+
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-condensed">
+
+            <% @otherLangs.each do |language| %>
+                <%= render 'layouts/button', language: language, lang: lang %>
+            <% end %>
+            <%= render 'layouts/button', language: @other, lang: lang %>
+
+
+          </table>
+        </div>
+      </div>
+    </div>
+    <%= hidden_field_tag 'langs', @sitelangs %>
+
+    <% end %>
+
+</p>
+
+
+<%#= link_to 'Show', @link %>
+<%= link_to 'Back to links', @site %>
+
+

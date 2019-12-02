@@ -1,0 +1,66 @@
+<% if @domain.nil? %>
+    <h3>Language Groups</h3>
+<% else %>
+    <p>
+      <strong>Domain name:</strong>
+      <%= @domain.name %>
+    </p>
+<% end %>
+<div id="home">
+  <p>The grouping as well as the division of languages follow those of
+    <a href="http://www.ethnologue.com/about">Ethnologue: Languages of the World</a> and
+    the <a href="http://www-01.sil.org/iso639-3/default.asp">ISO 639-3 standard</a>.</p>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10">
+
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead>
+          <tr>
+            <th></th>
+            <th colspan="3"></th>
+          </tr>
+          </thead>
+          <% @i=0 %>
+          <tbody>
+          <% @groups.each do |group| %>
+              <% @i = @i+1 %>
+              <tr data-toggle="collapse" data-target="#group<%= @i %>" class="accordion-toggle">
+                <td><%= group.name %>  <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
+              <tr>
+                <td colspan="6" class="hiddenRow">
+                  <div class="accordian-body collapse" id="group<%= @i %>">
+                    <table>
+                      <% languages = group.languages.includes(:sites).where('id NOT IN (?)', @not_wanted_ids).order(:name) %>
+                      <% languages.each do |language| %>
+                          <tr>
+                            <% if @domain.nil? %>
+                                <td style="padding-left:2em"><%= link_to language.name, language %></td>
+                                <td style="padding-left:1em"><%= language.sites.count %></td>
+                            <% else %>
+                                <% count = is_in_domain(@domain.id, language) %>
+                                <% if count > 0 %>
+                                    <td style="padding-left:2em"><%= link_to language.name, language_path(language, dom: @domain.id) %></td>
+                                    <td style="padding-left:1em"><%= count %></td>
+                                <% end %>
+                            <% end %>
+                          </tr>
+                      <% end %>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="col-xs-2">
+    </div>
+  </div>
+</div>

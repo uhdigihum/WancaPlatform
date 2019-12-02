@@ -1,0 +1,172 @@
+
+<% unless @lang_to_go.nil? %>
+    <% language = @lang_to_go.id %>
+<% else %>
+    <% language = nil %>
+<% end %>
+
+<p>
+  <strong>Site:</strong>
+  <%= link_to @site.name, site_path(@site) %> (<%= pluralize(@site.languages.count, 'language') %>)
+</p>
+
+
+<p>
+  <strong>Address:</strong>
+  <%= link_to @link.address, @link.address, :target => '_blank', :rel => 'nofollow' %> (<%= link_to "Click", @link.address, :target => '_blank', :rel => 'nofollow' %> to open link into a new tab if it is not opening in the frame below)
+</p>
+
+<p>
+  Automatically identified language:
+  <span title="Will show sites in this language"><%= link_to @orig_lang.name, language_path(@orig_lang, :dom => @dom_id, :page => session[:page]) %></span>
+</p>
+<p>
+<p>
+  <% unless @link.verified %>
+      <% if current_user && current_user.admin %>
+          <%= link_to "Verify", suggestions_path(link: @link.id, verify: true, yes: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-success' %>
+      <% end %>
+  <% end %>
+  <strong>Current language:</strong>
+  <span title="Will show sites in this language"><%= link_to @link_lang.name, language_path(@link_lang, :dom => @dom_id, :page => session[:page]) %></span>
+  <% if @link.verified %>
+      <span class="glyphicon glyphicon-ok" style="color:green;" title="Current language verified by an expert of the language"%></span>
+  <% else %>
+      <strong> | </strong>
+      <% if current_user %>
+
+          <%= link_to 'YES', suggestions_path(link: @link.id, yes: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-success' %>
+      <% else %>
+          <span>YES </span>
+      <% end %>
+      <%= @yesVotes.count %>
+      <% if current_user %>
+          <%= link_to "NO", suggestions_path(link: @link.id, no: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-danger' %>
+      <% else %>
+          <span>NO </span>
+      <% end %>
+      <%= @noVotes.count %>
+      <% if current_user %>
+          <%= link_to "Don't know", suggestions_path(link: @link.id, dont_know: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-default' %>
+      <% else %>
+          <span>Don't know </span>
+      <% end %>
+      <%= @dontKnow.count %>
+
+  <% end %>
+</p>
+
+<% unless @problem[0].nil? %>
+    <span style="color:red">This link has been reported as problematic</span><br />
+    <% if current_user && current_user.chief %>
+        <%= link_to 'Undo problematic', problem_link_path(link_id: @link.id), method: :patch, :class => 'btn btn-sm btn-default' %>
+    <% end %>
+<% end %>
+<br/><br />
+
+
+<div>
+  <% unless @prev.nil? %>
+      <%= link_to raw('<span class="glyphicon glyphicon-chevron-left"></span>'), link_path(@prev, :link_nro => @nro-1, :dom => @dom_id, :language_id => language) %>
+  <% else %>
+      <span>&nbsp;&nbsp;&nbsp;</span>
+  <% end %>
+  <span class="badge"><%= @nro %>/<%= @nroOfLinks %></span>
+  <% unless @next.nil? %>
+      <%= link_to raw('<span class="glyphicon glyphicon-chevron-right"></span>'), link_path(@next, :link_nro => @next_nro, :dom => @dom_id, :language_id => language) %>
+  <% end %>
+
+  <% unless @next.nil? %>
+      <% path = link_path(@next, :language_id => @lang_to_show.id, :link_nro => @next_nro, :dom => @dom_id) %>
+  <% else %>
+      <% if @lang_to_show.nil? %>
+          <% path = site_path(@site, :dom => @dom_id) %>
+      <% else %>
+          <% path = language_path(@lang_to_show, :dom => @dom_id, :page => session[:page]) %>
+      <% end %>
+  <% end %>
+
+  <div class="pull-right">
+    <% unless @link.verified %>
+        Is this page written in <%= @link_lang.name %>?
+        <% if current_user %>
+            <% if current_user.admin %>
+                <%= link_to 'Change language', edit_link_path(@link, :site_id => @site.id, :language_id => @link_lang.id, :link_nro => @nro, :next => @next, :dom => @dom_id), :class => 'btn btn-sm btn-danger' %>
+            <% end %>
+            <%= link_to "NO", suggestions_path(link: @link.id, no: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-danger' %>
+            <span title="You can vote 'Don't know, if you just want to remove this link from the ones shown to you">
+          <%= link_to "Don't know", suggestions_path(link: @link.id, dont_know: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-default' %></span>
+            <%= link_to 'YES', suggestions_path(link: @link.id, yes: true, :dom => @dom_id, :language_id => @link_lang.id, :next => @next, :link_nro => @next_nro, :lang => @lang_to_go), method: :post, :class => 'btn btn-sm btn-success' %>
+
+        <% else %>
+            <%= link_to 'Login', signin_path, :class => 'btn btn-sm btn-default' %> to vote.
+        <% end %>
+    <% end %>
+    <%= link_to raw('<span class="glyphicon glyphicon-chevron-right"></span>'), path %>
+
+
+  </div>
+</div>
+<br /><br />
+
+<div class="pull-left" >
+  <% if @problem[0].nil? %>
+      <% if current_user %>
+          <%= link_to 'Press', problem_links_path(link_id: @link.id), method: :post, :class => 'btn btn-sm btn-default' %>
+      <% else %>
+          <%= link_to 'Login', signin_path, :class => 'btn btn-sm btn-default' %>
+      <% end %>
+      to report a page that is not available <span title="When you report a link to be problematic, the page will be later checked by the site administrators.
+If the frame is blank, try opening the page address into a new tab.
+Thank you for helping us noticing problematic links!" id="questionMark" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+  <% end %>
+  <% if current_user && current_user.chief %>
+      <%= link_to 'Hide this link', link_path(@link, :next => @next, :language_id => @link_lang.id, :lang_id => language, :link_nro => @nro, :dom => @dom_id, :show => 'false'), method: :patch, :class => 'btn btn-sm btn-default' %>
+  <% end %>
+</div>
+
+
+
+
+<br /><br />
+<div id="wrapper"> <!--
+CATCH PDF-->
+  <% if @link.address.include? '.pdf'%>
+      <p><strong>This file is a PDF</strong> <%= link_to 'OPEN PDF', @link.address, :target => '_blank', :class => 'btn btn-sm btn-default' %></p>
+  <% else %>
+      <iframe src="<%= @link.address %>" class="myFrame"
+              scrolling="yes" width="100%" frameborder="10" rel="nofollow" >
+      </iframe>
+      <br /><br />
+      <div>
+        <% if @problem[0].nil? %>
+            <% if current_user %>
+                <%= link_to 'Press', problem_links_path(link_id: @link.id), method: :post, :class => 'btn btn-sm btn-default' %>
+            <% else %>
+                <%= link_to 'Login', signin_path, :class => 'btn btn-sm btn-default' %>
+            <% end %>
+            to report problem with this link <span title="When you report a link to be problematic, the page will be later checked by the site administrators.
+If the frame is blank, try opening the page address into a new tab.
+Thank you for helping us noticing problematic links!" id="questionMark" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+        <% end %>
+      </div>
+
+  <% end %>
+
+</div>
+<!-- </div> -->
+
+
+
+<br />
+
+
+
+
+<script type="text/javascript" language="javascript">
+    $('.myFrame').css('height', $(window).height()+'px');
+    $(document).ready(function() {
+
+
+    });
+</script>

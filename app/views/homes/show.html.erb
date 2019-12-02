@@ -1,0 +1,159 @@
+<h4>Instructions for using Wanca:</h4>
+
+
+<div id="home" class="container" %>
+  <h5><strong>Browse</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>You can browse the links in small Uralic languages by selecting a language you want to see.
+        You can do this by either using the list of <%= link_to 'language groups', groups_path %>
+        or the list of <%= link_to 'all languages', languages_path %>.
+        You can also narrow down the results by selecting a specific <%= link_to 'domain', domains_path %>.
+      Once you select a language, you get a list of sites in that language. You can browse the links of a site one by one,
+        seeing each link's content in the frame on the page. A pdf does, unfortunately, not load into the frame but you can open the document in a new tab.
+        The links are listed under their "current language", which might differ from the automatically identified language if the language has been changed by an expert user.
+        By clicking the name of the site in a link's page, you can see all the links on that site containing text in small Uralic languages.
+      If the site contains links in several languages, you can see each group of links by clicking the language.
+      The grouping as well as the division of languages we use follows those of
+        <a href="http://www.ethnologue.com/about">Ethnologue: Languages of the World</a> and
+        the <a href="http://www-01.sil.org/iso639-3/default.asp">ISO 639-3 standard</a>.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+  <h5><strong>Search</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>You can also search for links by clicking the magnifying glass icon in the navigation bar. The searches can only be done to the addresses of the links.
+        The search can, however, contain several words as long as they are consecutive and contain also the possible punctuation marks (for example <i>areena.yle</i>).
+        Since we only provide links to the pages in Finno-Ugric languages we have found in the internet and our database does not contain the actual texts on those pages,
+        it is not possible to make searches in the content.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+
+  <h5><strong>Vote</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>By <%= link_to 'registering', signup_path %> to Wanca, you can vote for the current language either being correct or incorrect.
+        You can use the dropdown box from your username,
+        to select not to see the links you have already voted for. With the 'don't know' vote you can also hide links you have already seen.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+  <h5><strong>Report problematic links</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>If a link does not load or is said not to be available,
+        you can report the link as problematic by clicking the button on the link’s page.
+        We will then take a look at the problematic links and remove them from the list if necessary.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+  <h5><strong>Verify and change languages</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>After registering, you can apply for expert rights by sending us a <%= link_to 'message', contacts_path %>.
+        Please, tell about your interest in Wanca and Uralic languages, about your language skills and your affiliation if any.
+        As en Expert user you will be able to verify the language of a link. Verification counts as a yes vote for the current language.
+        You will also be able to change the language of the links or sites where the automatically identified language is incorrect.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+  <h5><strong>Report missing links or sites</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>Crawling the whole internet is impossible and, therefore,
+        we have collected links from various domains which we thought might contain pages in small Uralic languages
+        (.ee, .fi, .hu, .lv, .no, .ru, .se) as well as from some link lists.
+        We would be grateful for any links containing text in any small Uralic languages,
+        be it from other domains or otherwise not reached by our web crawler.
+        We will use the new links as starting points of our future crawls.
+        Users with expert rights can add a new link to the database by selecting the
+        <% if current_user %> <% if current_user.admin %> <%= link_to 'Add missing link', new_link_path %>
+            <% else %> <i><%= '\'Add missing link\'' %></i> <% end %><% end %>
+        option from the dropdown list under their username in the navigation bar.
+        Added links will be considered as 'verified' for the language you have indicated.
+        You can also email any such links to us through our <%= link_to 'contact form', contacts_path %>.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+
+
+  <h5><strong>Further instructions for voting and verifying:</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+<p>For the corpus gathering purposes we are basically looking for sites that contain at least one sentence in a relevant language.</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+  <div class="row" %>
+    <div class="col-xs-10">
+<p>If a page includes just a description of a relevant language in another language, vote no for the relevant language.
+  If the page contains just individual words or names in a relevant language, but it is mainly in a not relevant language,
+  vote no for the relevant language. Example of such a no vote would be the Võro description page in Alemannic German Wikipedia:</p>
+    </div>
+    <div class="col-xs-2"></div>
+    </div>
+    <div class="row" %>
+      <div class="col-xs-1"></div>
+      <div class="col-xs-6">
+        <%= image_tag 'Voro-1.tiff' %>
+      </div>
+      <div class="col-xs-5"></div>
+      </div>
+  <br />
+
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>If the page includes at least one complete sentence in the relevant language, do vote yes for the relevant language.
+        Example of a yes vote would be the examples of Võro in the Czech Wikipedia description of Võro language:</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+
+  <div class="row" %>
+    <div class="col-xs-1"></div>
+    <div class="col-xs-6">
+      <%= image_tag 'Voro-2.tiff' %>
+    </div>
+    <div class="col-xs-5"></div>
+  </div>
+  <br />
+
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>A webpage is usually made up from several different files.
+        We have identified the language of the individual files,
+        but the page that is shown to you is the whole page.
+        The other files included in the pages might be advertisements that are shown to you,
+        for example, because of the location you are using the internet or the cookies stored into your web browser.</p>
+       <p>Also, if you are logged into a site, for example the Wikipedia,
+         the website might know your prefered language and show some common sections or menus in that language.
+         We are asking you to try to identify the relevant part of the webpage,
+         it should not be that difficult, and vote according to that part of the webpage.
+         An example of an Estonian page with menus in Võro follows:</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+
+  <div class="row" %>
+    <div class="col-xs-1"></div>
+    <div class="col-xs-6">
+      <%= image_tag 'Voro-3.png' %>
+    </div>
+    <div class="col-xs-5"></div>
+  </div>
+  <br />
+
+  <h5><strong>Problems?</strong></h5>
+  <div class="row" %>
+    <div class="col-xs-10">
+      <p>The site is still under construction and problems may arise.
+        Please, let us know of any problems you encounter by sending us a <%= link_to 'message', contacts_path %>
+        and we will try to solve those problems. Note that Wanca might sometimes be down for updates. Please, try again later.
+        The server where wanca is situated is, furthermore, down for maintenance on the fourth
+      Thursday of every month between 8 and 10 o'clock in the morning (Eastern European time).</p>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+</div>

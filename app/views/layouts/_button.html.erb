@@ -1,0 +1,11 @@
+<tr>
+ <% unless lang.nil? %>
+      <% if language.name == lang.name %>
+          <td><label><%= radio_button_tag('language_id', language.id, false, disabled: true) %>    <span style="font-weight: bolder"><%= language.name %></span></label></td>
+      <% else %>
+          <td><label><%= radio_button_tag('language_id', language.id, false) %>    <%= language.name %></label></td>
+      <% end %>
+ <% else %>
+      <td><label><%= radio_button_tag('language_id', language.id, false) %>    <%= language.name %></label></td>
+ <% end %>
+</tr>

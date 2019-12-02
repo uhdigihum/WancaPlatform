@@ -1,0 +1,93 @@
+
+
+<% if @link.new_record? %>
+    <!-- <%#= form_for(@link, :as => :post, :url => links_path) do |f| %>
+        <%#= f.label 'Link address: ' %>
+        <%#= f.url_field :address, size: 100, :placeholder => 'Write link address here' %><br /><br />
+        <%#= f.label 'Language: ' %>
+        <%#= f.collection_select :language_id, @languages, :id, :name, {:include_blank => 'Select a language for the link'} %><br /><br />
+        <%#= submit_tag 'Add link', :class => 'btn btn-sm btn-danger' %><br /><br /><br />
+        <%# end %> -->
+    <%= form_tag links_path, :controller => 'links',  :method => 'post' do %>
+        <%= label_tag 'Copy the address of the link with http:// or https:// here:' %><br />
+        <%= url_field_tag 'address', @address, size: 100, :placeholder => 'http:// or https://' %><br /><br />
+        <%= select_tag 'language', options_from_collection_for_select(@languages, "id", "name"), {prompt: 'Select a language for the link'} %><br /><br />
+        <%= submit_tag 'Add link', :class => 'btn btn-sm btn-danger' %><br /><br /><br />
+    <% end %>
+
+<% else %>
+
+
+  <%= form_tag link_path, :controller => 'links',  :method => 'patch' do %>
+      <p><strong>Change the current language for this link:</strong>
+
+      <span class="pull-right"><% if current_user.admin %>
+        <%= submit_tag 'Change' , :class => 'btn btn-sm btn-danger'%>
+      <% else %>
+        <%= submit_tag 'Suggest', :class => 'btn btn-sm btn-danger' %>
+        <% end %>
+      <%= link_to 'Cancel', :back, :class => 'btn btn-sm btn-default' %>
+    </span></p>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <table class="table table-condensed">
+
+
+                <% for i in 0..18 %>
+                    <% language = @languages[i] %>
+                    <%= render 'layouts/button', language: language, lang: @lang %>
+                <% end %>
+
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-condensed">
+
+            <% for i in 19..@languages.length-1 %>
+                <% language = @languages[i] %>
+                <%= render 'layouts/button', language: language, lang: @lang %>
+                <% end %>
+
+
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-condensed">
+
+            <% @otherLangs.each do |language| %>
+                <%= render 'layouts/button', language: language, lang: @lang %>
+            <% end %>
+            <%= render 'layouts/button', language: @other, lang: @lang %>
+
+
+          </table>
+        </div>
+      </div>
+    </div>
+    <%= hidden_field_tag 'lang_id', @lang.id %>
+    <%= hidden_field_tag 'link_nro', @nro %>
+    <%= hidden_field_tag 'next', @next %>
+    <%= hidden_field_tag 'dom', @dom %>
+  <% end %>
+</p>
+
+
+<div id="wrapper"> <!--
+CATCH PDF-->
+  <% if @link.address.include? '.pdf'%>
+      <p><strong>This file is a PDF</strong></p> <%= link_to 'OPEN PDF', @link.address, :target => '_blank'  %>
+  <% else %>
+      <iframe src="<%= @link.address %>" class="myFrame"
+              scrolling="yes" width="100%" frameborder="10" >
+      </iframe>
+  <% end %>
+</div>
+<!-- </div> -->
+
+    <% end %>
+
+<script type="text/javascript" language="javascript">
+    $('.myFrame').css('height', $(window).height()+'px');
+</script>
+

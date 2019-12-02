@@ -1,0 +1,24 @@
+<p>
+  <strong>Address:</strong>
+  <%= link_to @link.address, @link.address, :target => '_blank'  %>
+</p>
+
+<p>
+  <strong>Site:</strong>
+  <%= link_to @site.name, @site %> (<%= pluralize(@site.languages.count, 'language') %>)
+  <%= link_to 'Edit site language', edit_site_path(@site), :class => 'btn btn-sm btn-default' %>
+</p>
+
+<p>
+  <strong>Current language:</strong>
+  <%= link_to @lang.name, @lang %>
+
+</p>
+
+
+<p>
+
+<%= render 'form' %>
+
+
+<%= link_to 'Back', :back %>

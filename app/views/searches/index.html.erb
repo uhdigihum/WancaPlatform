@@ -1,0 +1,53 @@
+<h5>Search for links with (consecutive) words in their address:</h5>
+
+<%= form_tag(searches_path, method: 'get', id: 'search-form') do %>
+    <div class="input-append">
+      <%= text_field_tag(:search, params[:search], page: 1, class: 'input-sm', size: 60, placeholder: 'Search for links with (consecutive) words in their address') %>
+
+      <button class="btn btn-sm btn-default", type="'submit">Submit</button>
+    </div>
+<% end %>
+<br>
+<h4>Search results for '<%= @query %>':</h4>
+
+<%= will_paginate @searches, :previous_label => 'Previous', :next_label => 'Next', :renderer => BootstrapPagination::Rails, class: 'pagination-sm' %>
+<div class="table-responsive">
+  <table class="table table-striped table-condensed">
+    <thead>
+    <tr>
+      <th>
+        Address
+      </th>
+      <th>
+        Current Language
+      </th>
+      <th>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% nro = 0 %>
+    <% @searches.each do |link| %>
+    <tr>
+      <td>
+        <%#= link_to truncate(@links[i][0].address, length:100), link_path(@links[i][0], :link_nro => @links[i][2]+1, :language_id => @links[i][1].id) %>
+        <%= link_to truncate(link.address, length:100), link_path(link, :link_nro => @infos[nro][1]+1, :language_id => @infos[nro][0].id) %>
+      </td>
+      <td>
+        <%#= link_to @links[i][1].name, language_path(@links[i][1].id) %>
+        <%= link_to @infos[nro][0].name, language_path(@infos[nro][0].id) %>
+      </td>
+      <% if link.verified %>
+          <td>
+            <span class="glyphicon glyphicon-ok" style="color:green;" title="Current language verified by an expert of the language"%></span>
+          </td>
+      <% end %>
+    </tr>
+        <% nro = nro+1 %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= will_paginate @links, :previous_label => 'Previous', :next_label => 'Next', :renderer => BootstrapPagination::Rails, class: 'pagination-sm' %>
+
