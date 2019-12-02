@@ -83,14 +83,13 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  #config.action_mailer.default_url_options = { :host => 'suki.ling.helsinki.fi' }
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :<YOUR METHOD>
 
   config.action_mailer.smtp_settings={
-      address:"smtp.helsinki.fi",
-      port: 587,
-      domain: "helsinki.fi",
+      address:"<YOUR ADDRESS>",
+      port: <YOUR PORT>,
+      domain: "<YOUR DOMAIN>",
       authentication: "plain",
       enable_starttls_auto: true,
       user_name: Rails.application.secrets.mail_username,
