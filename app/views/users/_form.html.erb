@@ -46,7 +46,7 @@
       <% end %>
       <%= f.password_field :password_confirmation %><br /><br />
       <%= f.check_box :checkbutton %>
-      <%= f.label :checkbutton, "I have read Wanca's #{link_to 'user register privacy policy', 'http://www.suki.ling.helsinki.fi/eng/Wanca_user_register_privacy_policy.pdf', target: '_blank'}.".html_safe %><span style="color:red"> *</span><br><br>
+      <%= f.label :checkbutton, "I have read #{link_to 'user register privacy policy', '<PATH TO YOUR FILE HERE', target: '_blank'}.".html_safe %><span style="color:red"> *</span><br><br>
     </div>
     <br />
     <p><b>Please check the box (and if necessary answer the question)</b></p>
