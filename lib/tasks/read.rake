@@ -1,7 +1,7 @@
 namespace :readtask do
 
   desc "Opens and reads the given file, adds new links (and sites) to the database. Expects the file to have the same form
-as the addLinks_example.txt file. Expects the database to have all the domains (e.g. 'fi' or 'de') and languages mentioned
+as the textfiles/addLinks_example.txt file. Expects the database to have all the domains (e.g. 'fi' or 'de') and languages mentioned
 in the file."
   task :read_file, [:filename] => :environment do |t, args|
     file = File.open(args[:filename], "r")
