@@ -1,9 +1,6 @@
-== README
+== Wanca Platform
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+This if the code of the Wanca service[http://suki.ling.helsinki.fi/wanca/], which is a collection of links to web pages written in various Uralic languages and a crowdsourcing platform to verify the automatically determined languages of the web pages collected by crawling. Wanca platform can be used to present links to web pages in other languages as well.
 
 * Ruby version
 
