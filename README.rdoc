@@ -2,24 +2,4 @@
 
 This if the code of the Wanca service[http://suki.ling.helsinki.fi/wanca/], which is a collection of links to web pages written in various Uralic languages and a crowdsourcing platform to verify the automatically determined languages of the web pages collected by crawling. Wanca platform can be used to present links to web pages in other languages as well.
 
-* Ruby version
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
